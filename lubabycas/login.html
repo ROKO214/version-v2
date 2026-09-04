@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuBabycas — Inventario</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.top-bar{position:fixed;top:0;left:0;right:0;background:#F47B20;text-align:center;padding:9px;font-size:13px;font-weight:700;color:#fff}
+.card{background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(244,123,32,.15);padding:44px 40px 36px;width:100%;max-width:400px;margin-top:40px}
+.logo{text-align:center;margin-bottom:28px}
+.logo-img{font-size:36px;font-weight:900;color:#F47B20;letter-spacing:-1px}
+.logo-sub{font-size:11px;font-weight:700;color:#b85a10;letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;display:block}
+.form-control{width:100%;padding:11px 14px;border:2px solid #ffe4cc;border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;color:#1a1a1a;outline:none;transition:border .15s}
+.form-control:focus{border-color:#F47B20;box-shadow:0 0 0 3px rgba(244,123,32,.12)}
+.btn-login{width:100%;padding:13px;background:#F47B20;color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:background .15s;margin-top:4px}
+.btn-login:hover{background:#d96a10}
+.error-msg{background:#fff0eb;border:1.5px solid #F47B20;color:#b85a10;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600;margin-bottom:14px;display:none}
+.error-msg.show{display:block}
+.demo-users{margin-top:24px;padding-top:20px;border-top:1.5px dashed #ffe4cc}
+.demo-title{font-size:11px;font-weight:800;color:#aaa;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;text-align:center}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.demo-btn{background:#fff7f0;border:1.5px solid #ffe4cc;border-radius:8px;padding:7px 10px;cursor:pointer;text-align:left;font-family:'Nunito',sans-serif;transition:border-color .1s}
+.demo-btn:hover{border-color:#F47B20}
+.demo-role{font-size:10px;font-weight:800;color:#F47B20;text-transform:uppercase}
+.demo-name{font-size:12px;font-weight:700;color:#333;margin-top:1px}
+</style>
+</head>
+<body>
+<div class="top-bar">🛒 LuBabycas — Sistema de Inventario</div>
+<div class="card">
+  <div class="logo">
+    <div class="logo-img">LuBabycas</div>
+    <div class="logo-sub">Control de Inventario v2</div>
+  </div>
+  <div class="error-msg" id="err">Usuario o contraseña incorrectos</div>
+  <div class="form-group">
+    <label class="form-label">Usuario</label>
+    <input type="text" class="form-control" id="u" placeholder="admin" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="p" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+  </div>
+  <button class="btn-login" onclick="login()">Ingresar →</button>
+  <div class="demo-users">
+    <div class="demo-title">Usuarios de prueba</div>
+    <div class="demo-grid">
+      <button class="demo-btn" onclick="fill('admin','admin123')"><div class="demo-role">👑 Admin</div><div class="demo-name">admin / admin123</div></button>
+      <button class="demo-btn" onclick="fill('supervisor','super123')"><div class="demo-role">🔧 Supervisor</div><div class="demo-name">supervisor / super123</div></button>
+      <button class="demo-btn" onclick="fill('bodeguero','bode123')"><div class="demo-role">📦 Bodeguero</div><div class="demo-name">bodeguero / bode123</div></button>
+      <button class="demo-btn" onclick="fill('lectura','leer123')"><div class="demo-role">👁 Lectura</div><div class="demo-name">lectura / leer123</div></button>
+    </div>
+  </div>
+</div>
+<script>
+const USERS=[
+  {username:'admin',password:'admin123',name:'Administrador',role:'admin',perms:['read','write','edit','delete','users','export','shopify']},
+  {username:'supervisor',password:'super123',name:'Supervisor',role:'supervisor',perms:['read','write','edit','export','shopify']},
+  {username:'bodeguero',password:'bode123',name:'Bodeguero',role:'bodeguero',perms:['read','write','edit']},
+  {username:'lectura',password:'leer123',name:'Solo Lectura',role:'lectura',perms:['read']},
+];
+function fill(u,p){document.getElementById('u').value=u;document.getElementById('p').value=p;}
+function login(){
+  const u=document.getElementById('u').value.trim();
+  const p=document.getElementById('p').value;
+  const user=USERS.find(x=>x.username===u&&x.password===p);
+  if(!user){document.getElementById('err').classList.add('show');return;}
+  sessionStorage.setItem('lb_user',JSON.stringify(user));
+  window.location.href='app.html';
+}
+</script>
+</body>
+</html>

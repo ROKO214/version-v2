@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+lubabycas-server/node_modules/
+
+# Environment variables & secrets
+.env
+lubabycas-server/.env
+
+# SQLite Database files
+*.db
+*.db-shm
+*.db-wal
+lubabycas-server/database.db
+lubabycas-server/database.db-shm
+lubabycas-server/database.db-wal
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS / Editor generated
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
